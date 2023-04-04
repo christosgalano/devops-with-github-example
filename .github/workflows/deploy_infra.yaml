@@ -12,6 +12,11 @@ on:
           default: westeurope
           required: true
           type: string
+
+concurrency:
+    group: ${{ github.workflow }}
+    cancel-in-progress: true
+
 jobs:
   deploy:
     name: Deploy infrastructure
