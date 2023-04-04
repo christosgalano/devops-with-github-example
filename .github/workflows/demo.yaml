@@ -1,6 +1,9 @@
 name: demo
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
         
 jobs:
@@ -20,7 +23,7 @@ jobs:
         run: echo "Testing our application"
   
   deploy:
-    needs: build-and-test
+    # needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
