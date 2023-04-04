@@ -1,0 +1,36 @@
+name: demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+        
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Hello world
+        run: echo "Hello world!"
+      
+      - name: Build
+        run: echo "Building our application"
+
+      - name: Test
+        run: echo "Testing our application"
+  
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy
+        run: echo "Deploying our application"

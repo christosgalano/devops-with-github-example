@@ -117,8 +117,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    outputs:
-      image_id: ${{ steps.build-push-image.outputs.imageid }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

@@ -17,7 +17,13 @@ def test_get_hello_2():
     assert response.json() == "Hello devops, engineers"
 
 
-def test_not_found():
+def test_get_hello_3():
     response = client.get(url="/devops/engineers/again")
+    assert response.status_code == 200
+    assert response.json() == "Hello devops, engineers, again"
+
+
+def test_not_found():
+    response = client.get(url="/devops/engineers/again/again")
     assert response.status_code == 404
     assert response.json() == {"detail": "Not Found"}
