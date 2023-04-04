@@ -51,6 +51,9 @@ module compute 'modules/copute.bicep' = {
     webapp_always_on: true
     webapp_linux_fx_version: 'PYTHON|3.10'
   }
+  dependsOn: [
+    rg
+  ]
 }
 
 /// Outputs ///
