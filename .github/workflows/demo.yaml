@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
         
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -23,7 +26,7 @@ jobs:
         run: echo "Testing our application"
   
   deploy:
-    # needs: build-and-test
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
