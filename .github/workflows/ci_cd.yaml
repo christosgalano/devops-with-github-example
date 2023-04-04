@@ -23,7 +23,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  WEBAPP_NAME: app-dwg-dev-weu
+  AZURE_WEBAPP_NAME: app-dwg-dev-weu
 
 jobs:
   test:
@@ -132,4 +132,3 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: '${{ github.workspace }}/src'
           startup-command: 'python -m uvicorn app.main:app --host localhost --port 80'
-          
