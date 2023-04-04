@@ -35,7 +35,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   tags: tags
 }
 
-module compute 'modules/copute.bicep' = {
+module compute 'modules/compute.bicep' = {
   scope: resourceGroup(rg_name)
   name: 'compute-deployment'
   params: {
