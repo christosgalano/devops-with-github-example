@@ -49,7 +49,7 @@ module compute 'modules/compute.bicep' = {
 
     webapp_name: 'app-${suffix}'
     webapp_always_on: true
-    webapp_linux_fx_version: 'PYTHON|3.10'
+    webapp_linux_fx_version: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
   }
   dependsOn: [
     rg
