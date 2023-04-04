@@ -1,0 +1,25 @@
+name: destroy-infra
+run-name: ${{ github.workflow }}
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_name:
+        description: "Specify deployment name. Must have an output named 'resource_groups' which is an array with the names of the resource groups' to be deleted."
+        required: true
+        type: string
+
+jobs:
+  destroy:
+    name: Destroy infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Delete all of the deployment's resource groups and their resources
+        shell: pwsh
+        run: |
+          $resource_groups = az deployment sub show -n ${{ inputs.deployment_name }} --query properties.outputs.resource_groups.value | convertfrom-json
+          $resource_groups | foreach -parallel { Write-Host "Deleting resource group $_ ..."; az group delete -n $_ -y }

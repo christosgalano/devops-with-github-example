@@ -1,0 +1,52 @@
+name: deploy-infra
+run-name: ${{ github.workflow }}
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_name:
+        description: "Specify deployment name"
+        required: true
+        type: string
+      location:
+          description: "Specify the location to store the deployment metadata"
+          default: westeurope
+          required: true
+          type: string
+jobs:
+  deploy:
+    name: Deploy infrastructure
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Azure login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Lint template
+        working-directory: ${{ github.workspace }}/bicep
+        run: |
+          az bicep build --file azure.deploy.bicep
+
+      - name: Validate template
+        working-directory: ${{ github.workspace }}/bicep
+        run: |
+          az deployment sub validate \
+            --name "${{ inputs.deployment_name }}" \
+            --location "${{ inputs.location }}" \
+            --template-file azure.deploy.bicep \
+            --parameters azure.deploy.parameters.json
+            
+      - name: Deploy template
+        working-directory: ${{ github.workspace }}/bicep
+        run: |
+          az deployment sub create \
+            --name "${{ inputs.deployment_name }}" \
+            --location "${{ inputs.location }}" \
+            --template-file azure.deploy.bicep \
+            --parameters azure.deploy.parameters.json
