@@ -7,13 +7,13 @@ on:
       - main
     paths:
       - "src/**"
-      - ".github/workflows/**"
+      - ".github/**"
   pull_request:
     branches:
       - main
     paths:
       - "src/**"
-      - ".github/workflows/**"
+      - ".github/**"
 
 concurrency:
   group: ${{ github.workflow }}
