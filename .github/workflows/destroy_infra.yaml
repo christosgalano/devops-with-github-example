@@ -5,6 +5,7 @@ on:
     inputs:
       deployment_name:
         description: "Specify deployment name. Must have an output named 'resource_groups' which is an array with the names of the resource groups' to be deleted."
+        default: dwg-deployment
         required: true
         type: string
 
@@ -16,16 +17,9 @@ jobs:
   approve:
     name: approve-infra-teardown
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2.0.0
-        with:
-          disable-sudo: true
-          egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            github.com:443
-
       - name: Checkout
         uses: actions/checkout@v3
 
