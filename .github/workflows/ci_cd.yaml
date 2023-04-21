@@ -146,7 +146,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
   
       - name: Azure login
@@ -154,15 +154,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Update webapp settings
+      - name: Configure webapp
         run: |
-          az webapp config appsettings set \
+          az webapp config container set \
           --name ${{ vars.WEBAPP_NAME }} \
           --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
-          --settings DOCKER_REGISTRY_SERVER_URL=${{ env.REGISTRY }} DOCKER_REGISTRY_SERVER_USERNAME=${{ github.repository_owner }} DOCKER_REGISTRY_SERVER_PASSWORD=${{ secrets.PACKAGES_PAT }}
-
-      - name: Deploy to Azure Webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '${{ vars.WEBAPP_NAME }}'
-          images: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}'
+          --docker-custom-image-name '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}' \
+          --docker-registry-server-url ${{ env.REGISTRY }} \
+          --docker-registry-server-user ${{ github.repository_owner }} \
+          --docker-registry-server-password ${{ secrets.PACKAGES_PAT }}

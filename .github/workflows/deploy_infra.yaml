@@ -43,16 +43,16 @@ jobs:
         working-directory: ${{ github.workspace }}/bicep
         run: |
           az deployment sub validate \
-            --name "${{ inputs.deployment_name }}" \
-            --location "${{ inputs.location }}" \
-            --template-file azure.deploy.bicep \
-            --parameters azure.deploy.parameters.json
+          --name "${{ inputs.deployment_name }}" \
+          --location "${{ inputs.location }}" \
+          --template-file azure.deploy.bicep \
+          --parameters azure.deploy.parameters.json
             
       - name: Deploy template
         working-directory: ${{ github.workspace }}/bicep
         run: |
           az deployment sub create \
-            --name "${{ inputs.deployment_name }}" \
-            --location "${{ inputs.location }}" \
-            --template-file azure.deploy.bicep \
-            --parameters azure.deploy.parameters.json
+          --name "${{ inputs.deployment_name }}" \
+          --location "${{ inputs.location }}" \
+          --template-file azure.deploy.bicep \
+          --parameters azure.deploy.parameters.json
