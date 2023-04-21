@@ -28,6 +28,7 @@ env:
 
 jobs:
   test:
+    name: test
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -110,7 +111,8 @@ jobs:
           path: code-coverage-results.md
           recreate: true
 
-  publish-image:
+  publish-docker-image:
+    name: publish-docker-image
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
@@ -137,9 +139,13 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
   
   deploy-to-azure:
-    needs: publish-image
+    name: deploy-to-azure
+    needs: publish-docker-image
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    environment:
+      url: https://${{ env.WEBAPP_NAME }}.azurewebsites.net/
+      name: production
     permissions:
       contents: read
     steps:

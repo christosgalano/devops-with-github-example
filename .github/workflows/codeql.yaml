@@ -20,7 +20,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze:
+  analyze-code:
+    name: analyze-code
     runs-on: ubuntu-latest
     permissions:
       actions: read
