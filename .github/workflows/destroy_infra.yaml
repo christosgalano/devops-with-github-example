@@ -13,8 +13,31 @@ concurrency:
     cancel-in-progress: true
         
 jobs:
+  approve:
+    name: approve-infra-teardown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2.0.0
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Manual Workflow Approval
+        uses: trstringer/manual-approval@v1.6.0
+        with:
+          approvers: christosgalano
+          minimum-approvals: 1
+          secret: ${{ github.TOKEN }}
   destroy:
-    name: Destroy infrastructure
+    name: destroy-infra
+    needs: approve
     runs-on: ubuntu-latest
     steps:
       - name: Azure login

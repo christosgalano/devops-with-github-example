@@ -5,6 +5,7 @@ on:
     inputs:
       deployment_name:
         description: "Specify deployment name"
+        default: dwg-deployment
         required: true
         type: string
       location:
@@ -19,7 +20,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy infrastructure
+    name: deploy-infra
     runs-on: ubuntu-latest
     defaults:
       run:
