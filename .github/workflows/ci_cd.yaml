@@ -159,7 +159,7 @@ jobs:
           az webapp config container set \
           --name ${{ vars.WEBAPP_NAME }} \
           --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
-          --docker-custom-image-name '${{ env.IMAGE_NAME }}:${{ github.sha }}' \
+          --docker-custom-image-name '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}' \
           --docker-registry-server-url ${{ env.REGISTRY }} \
           --docker-registry-server-user ${{ github.repository_owner }} \
           --docker-registry-server-password ${{ secrets.PACKAGES_PAT }}
