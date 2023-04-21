@@ -25,6 +25,7 @@ var tags = union({
   }, rg_tags)
 
 var rg_name = 'rg-${suffix}'
+var webapp_name = 'app-${suffix}'
 var suffix = '${workload}-${environment}-${location_abbreviation}'
 
 /// Resources ///
@@ -47,7 +48,7 @@ module compute 'modules/compute.bicep' = {
     plan_sku_tier: 'PremiumV3'
     plan_reserved: true
 
-    webapp_name: 'app-${suffix}'
+    webapp_name: webapp_name
     webapp_always_on: true
     webapp_linux_fx_version: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
   }
@@ -58,4 +59,5 @@ module compute 'modules/compute.bicep' = {
 
 /// Outputs ///
 
+output webapp_name string = webapp_name
 output resource_groups array = [ rg.name ]
