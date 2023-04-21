@@ -20,10 +20,10 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Manual Workflow Approval
+      - name: Manual approval
         uses: trstringer/manual-approval@v1.6.0
         with:
           approvers: christosgalano
@@ -39,7 +39,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Delete all of the deployment's resource groups and their resources
+      - name: Delete resource groups
         shell: pwsh
         run: |
           $resource_groups = az deployment sub show -n ${{ inputs.deployment_name }} --query properties.outputs.resource_groups.value | convertfrom-json
