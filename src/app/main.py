@@ -21,4 +21,4 @@ def get_hello_3(string_1: str, string_2: str, string_3: str):
     return f"Hello {string_1}, {string_2}, {string_3}"
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=80, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
