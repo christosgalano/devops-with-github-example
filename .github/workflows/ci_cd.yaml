@@ -21,7 +21,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: devops-with-github
+  IMAGE_NAME: ${{ github.repository}}
 
 jobs:
   test:
