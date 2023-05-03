@@ -14,7 +14,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily" # only on weekdays
+      interval: "daily"
       time: "23:00"
       timezone: "Europe/Athens"
     target-branch: "main"
