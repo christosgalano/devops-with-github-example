@@ -4,7 +4,7 @@
 [![codeql](https://github.com/christosgalano/devops-with-github-example/actions/workflows/codeql.yaml/badge.svg?branch=main&event=push)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/codeql.yaml)
 [![deploy-infra](https://github.com/christosgalano/devops-with-github-example/actions/workflows/deploy_infra.yaml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/deploy_infra.yaml)
 
-## General
+## Overview
 
 The purpose of this repository is to demonstrate how someone can leverage GitHub's numerous DevOps capabilities to streamline both application and infrastructure development and deployment processes.
 
