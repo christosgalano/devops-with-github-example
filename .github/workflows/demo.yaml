@@ -1,0 +1,30 @@
+name: demo-workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # 1st job
+  hello-world-1:
+    name: hello-world-1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Hello World 1
+        run: echo "Hello World 1"
+      
+      - name: Hello World 1 again
+        run: echo "Hello World 1, again"
+
+  # 2nd job
+  hello-world-2:
+    name: hello-world-2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello World 2
+        run: echo "Hello World 2"
+      
+      - name: Hello World 2 again
+        run: echo "Hello World 2, again"
