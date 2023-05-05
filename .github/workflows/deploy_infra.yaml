@@ -17,6 +17,7 @@ concurrency:
 env:
   LOCATION: westeurope
   DEPLOYMENT_NAME: dwg-deployment
+  BICEP_DIR: ${{ github.workspace }}/bicep
 
 jobs:
   psrule-scan:
@@ -25,10 +26,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ github.workspace }}/bicep
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,14 +33,14 @@ jobs:
       - name: Bicep build
         uses: Azure/bicep-build-action@v1.0.0
         with:
-          bicepFilePath: azure.deploy.bicep
-          outputFilePath: azure.deploy.json
+          bicepFilePath: ${{ env.BICEP_DIR }}/azure.deploy.bicep
+          outputFilePath: ${{ env.BICEP_DIR }}/azure.deploy.json
 
       - name: Run PSRule
         uses: microsoft/ps-rule@v2.8.1
         with:
           modules: "PSRule.Rules.Azure"
-          inputPath: azure.deploy.json
+          inputPath: ${{ env.BICEP_DIR }}/azure.deploy.json
           outputFormat: NUnit3
           outputPath: psrule-results-${{ github.run_number }}.xml
           summary: true
@@ -71,7 +68,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ github.workspace }}/bicep
+        working-directory: ${{ env.BICEP_DIR }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
