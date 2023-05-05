@@ -11,7 +11,7 @@ on:
       - ".github/workflows/deploy_infra.yaml"
 
 concurrency:
-  group: noop-ci-cd
+  group: noop-deploy-infra
   cancel-in-progress: true
 
 jobs:
