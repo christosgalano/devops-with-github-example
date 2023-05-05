@@ -24,6 +24,8 @@ jobs:
     name: psrule-scan
     runs-on: ubuntu-latest
     permissions:
+      issues: read
+      checks: write
       contents: read
       pull-requests: write
     steps:
