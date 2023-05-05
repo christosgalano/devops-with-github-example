@@ -15,8 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  LOCATION: westeurope
-  DEPLOYMENT_NAME: dwg-deployment
   BICEP_DIR: bicep
 
 jobs:
@@ -54,14 +52,15 @@ jobs:
           fail_on: test failures
           action_fail: false
           ignore_runs: false
-          job_summary: true
+          job_summary: false
           compare_to_earlier_commit: true
           check_run_annotations: all tests, skipped tests
 
-  deploy:
-    name: deploy
+  deploy-infrastructure:
+    name: deploy-infrastructure
     needs: psrule-scan
     runs-on: ubuntu-latest
+    environment: production-infrastructure
     permissions:
       contents: read
     defaults:
@@ -83,15 +82,15 @@ jobs:
       - name: Validate template
         run: |
           az deployment sub validate \
-          --name "${{ env.DEPLOYMENT_NAME }}" \
-          --location westeurope \
+          --name "${{ vars.DEPLOYMENT_NAME }}" \
+          --location "${{ vars.LOCATION }}" \
           --template-file azure.deploy.bicep \
           --parameters azure.deploy.parameters.json
             
       - name: Deploy template
         run: |
           az deployment sub create \
-          --name "${{ env.DEPLOYMENT_NAME }}" \
-          --location westeurope \
+          --name "${{ vars.DEPLOYMENT_NAME }}" \
+          --location "${{ vars.LOCATION }}"  \
           --template-file azure.deploy.bicep \
           --parameters azure.deploy.parameters.json

@@ -2,12 +2,6 @@ name: ci-cd
 run-name: ${{ github.workflow }}
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - "src/**"
-  #     - ".github/workflows/ci_cd.yaml"
   pull_request:
     branches:
       - main
@@ -113,7 +107,6 @@ jobs:
     name: publish-docker-image
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
     permissions:
       contents: read
       packages: write
@@ -136,14 +129,13 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
   
-  deploy-to-azure:
-    name: deploy-to-azure
+  deploy-application:
+    name: deploy-application
     needs: publish-docker-image
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
     environment:
       url: https://${{ vars.WEBAPP_NAME }}.azurewebsites.net
-      name: production
+      name: production-application
     permissions:
       contents: read
     steps:
