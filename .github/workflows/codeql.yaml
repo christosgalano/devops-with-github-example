@@ -7,13 +7,13 @@ on:
       - main
     paths:
       - "src/**"
-      - ".github/**"
+      - ".github/workflows/codeql.yaml"
   pull_request:
     branches:
       - main
     paths:
       - "src/**"
-      - ".github/**"
+      - ".github/workflows/codeql.yaml"
 
 concurrency:
   group: ${{ github.workflow }}

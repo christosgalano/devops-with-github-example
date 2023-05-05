@@ -1,30 +1,77 @@
 name: deploy-infra
 run-name: ${{ github.workflow }}
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "bicep/**"
+      - "ps-rule.yaml"
+      - ".github/workflows/deploy_infra.yaml"
   workflow_dispatch:
-    inputs:
-      deployment_name:
-        description: "Specify deployment name"
-        default: dwg-deployment
-        required: true
-        type: string
-      location:
-          description: "Specify the location to store the deployment metadata"
-          default: westeurope
-          required: true
-          type: string
 
 concurrency:
-    group: ${{ github.workflow }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  LOCATION: westeurope
+  DEPLOYMENT_NAME: dwg-deployment
 
 jobs:
-  deploy:
-    name: deploy-infra
+  psrule-scan:
+    name: psrule-scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     defaults:
       run:
         shell: bash
+        working-directory: ${{ github.workspace }}/bicep
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Bicep build
+        uses: Azure/bicep-build-action@v1.0.0
+        with:
+          bicepFilePath: azure.deploy.bicep
+          outputFilePath: azure.deploy.json
+
+      - name: Run PSRule
+        uses: microsoft/ps-rule@v2.8.1
+        with:
+          modules: "PSRule.Rules.Azure"
+          inputPath: azure.deploy.json
+          outputFormat: NUnit3
+          outputPath: psrule-results-${{ github.run_number }}.xml
+          summary: true
+
+      - name: Publish scan results
+        uses: EnricoMi/publish-unit-test-result-action@v2.7.0
+        if: always()
+        with:
+          check_name: PSRule Scan Results
+          nunit_files: psrule-results-${{ github.run_number }}.xml
+          comment_mode: always
+          fail_on: test failures
+          action_fail: false
+          ignore_runs: false
+          job_summary: true
+          compare_to_earlier_commit: true
+          check_run_annotations: all tests, skipped tests
+
+  deploy:
+    name: deploy
+    needs: psrule-scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ github.workspace }}/bicep
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,24 +82,20 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Lint template
-        working-directory: ${{ github.workspace }}/bicep
-        run: |
-          az bicep build --file azure.deploy.bicep
+        run: az bicep build --file azure.deploy.bicep
 
       - name: Validate template
-        working-directory: ${{ github.workspace }}/bicep
         run: |
           az deployment sub validate \
-          --name "${{ inputs.deployment_name }}" \
-          --location "${{ inputs.location }}" \
+          --name "${{ env.DEPLOYMENT_NAME }}" \
+          --location westeurope \
           --template-file azure.deploy.bicep \
           --parameters azure.deploy.parameters.json
             
       - name: Deploy template
-        working-directory: ${{ github.workspace }}/bicep
         run: |
           az deployment sub create \
-          --name "${{ inputs.deployment_name }}" \
-          --location "${{ inputs.location }}" \
+          --name "${{ env.DEPLOYMENT_NAME }}" \
+          --location westeurope \
           --template-file azure.deploy.bicep \
           --parameters azure.deploy.parameters.json

@@ -7,13 +7,14 @@ on:
       - main
     paths:
       - "src/**"
-      - ".github/**"
+      - ".github/workflows/ci_cd.yaml"
   pull_request:
     branches:
       - main
     paths:
       - "src/**"
-      - ".github/**"
+      - ".github/workflows/ci_cd.yaml"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}
@@ -112,7 +113,7 @@ jobs:
     name: publish-docker-image
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name != 'pull_request'
     permissions:
       contents: read
       packages: write
@@ -139,7 +140,7 @@ jobs:
     name: deploy-to-azure
     needs: publish-docker-image
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name != 'pull_request'
     environment:
       url: https://${{ vars.WEBAPP_NAME }}.azurewebsites.net
       name: production
