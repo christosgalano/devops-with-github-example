@@ -5,7 +5,7 @@ on:
     inputs:
       deployment_name:
         description: "Specify deployment name. Must have an output named 'resource_groups' which is an array with the names of the resource groups' to be deleted."
-        default: dwg-deployment
+        default: dwg-prod-deployment
         required: true
         type: string
 
@@ -25,7 +25,8 @@ jobs:
         with:
           approvers: christosgalano
           minimum-approvals: 1
-          secret: ${{ github.TOKEN }}
+          issue-title: "Approve teardown of infrastructure regarding deployment ${{ inputs.deployment_name }}"
+          secret: ${{ secrets.GITHUB_TOKEN }}
   destroy:
     name: destroy-infra
     needs: approve
