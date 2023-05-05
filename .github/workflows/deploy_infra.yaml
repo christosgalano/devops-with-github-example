@@ -17,7 +17,7 @@ concurrency:
 env:
   LOCATION: westeurope
   DEPLOYMENT_NAME: dwg-deployment
-  BICEP_DIR: ${{ github.workspace }}/bicep
+  BICEP_DIR: bicep
 
 jobs:
   psrule-scan:
