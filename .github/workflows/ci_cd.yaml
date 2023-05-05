@@ -2,12 +2,12 @@ name: ci-cd
 run-name: ${{ github.workflow }}
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "src/**"
-      - ".github/workflows/ci_cd.yaml"
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "src/**"
+  #     - ".github/workflows/ci_cd.yaml"
   pull_request:
     branches:
       - main
