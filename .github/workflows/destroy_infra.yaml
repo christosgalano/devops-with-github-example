@@ -10,8 +10,8 @@ on:
         type: string
 
 concurrency:
-    group: ${{ github.workflow }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
         
 jobs:
   approve:
@@ -20,9 +20,6 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Manual approval
         uses: trstringer/manual-approval@v1.9.0
         with:
