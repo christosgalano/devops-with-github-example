@@ -56,7 +56,7 @@ jobs:
           compare_to_earlier_commit: true
           check_run_annotations: all tests, skipped tests
 
-  deploy-infrastructure:
+  deploy:
     name: deploy-infrastructure
     needs: psrule-scan
     runs-on: ubuntu-latest
