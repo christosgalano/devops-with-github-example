@@ -35,7 +35,6 @@ rule:
 
     # App Service
     - Azure.AppService.HTTP2
-    - Azure.AppService.MinTLS
     - Azure.AppService.WebSecureFtp
     - Azure.AppService.ARRAffinity
     - Azure.AppService.ManagedIdentity
