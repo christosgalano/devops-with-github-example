@@ -57,6 +57,7 @@ resource webapp 'Microsoft.Web/sites@2022-03-01' = {
       alwaysOn: webapp_always_on
       linuxFxVersion: webapp_linux_fx_version
       healthCheckPath: webapp_health_check_path
+      minTlsVersion: '1.2'
     }
     httpsOnly: true
     serverFarmId: app_svc_plan.id
