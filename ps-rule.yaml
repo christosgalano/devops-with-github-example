@@ -27,5 +27,15 @@ rule:
   exclude:
     # Ignore the following rules for all resources
 
-    # Generic
+    # Template
     - Azure.Template.UseDescriptions
+
+    # Resource
+    - Azure.Resource.UseTags
+
+    # App Service
+    - Azure.AppService.HTTP2
+    - Azure.AppService.MinTLS
+    - Azure.AppService.WebSecureFtp
+    - Azure.AppService.ARRAffinity
+    - Azure.AppService.ManagedIdentity
