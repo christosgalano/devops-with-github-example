@@ -5,6 +5,12 @@ from app.main import app
 client = TestClient(app)
 
 
+def test_get_health():
+    response = client.get(url="/health")
+    assert response.status_code == 200
+    assert response.json() == "OK"
+
+
 def test_get_hello_1():
     response = client.get(url="/everyone")
     assert response.status_code == 200
