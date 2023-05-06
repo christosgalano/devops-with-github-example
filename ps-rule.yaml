@@ -21,7 +21,7 @@ configuration:
   AZURE_PARAMETER_FILE_EXPANSION: true
 
   # Enable expansion of Azure Bicep files.
-  AZURE_BICEP_FILE_EXPANSION: true
+  AZURE_BICEP_FILE_EXPANSION: false
 
 rule:
   # Enable custom rules that don't exist in the baseline
