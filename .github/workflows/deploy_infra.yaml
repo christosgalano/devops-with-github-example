@@ -56,41 +56,41 @@ jobs:
           compare_to_earlier_commit: true
           check_run_annotations: all tests, skipped tests
 
-  # deploy-infrastructure:
-  #   name: deploy-infrastructure
-  #   needs: psrule-scan
-  #   runs-on: ubuntu-latest
-  #   environment: production-infrastructure
-  #   permissions:
-  #     contents: read
-  #   defaults:
-  #     run:
-  #       shell: bash
-  #       working-directory: ${{ env.BICEP_DIR }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  deploy-infrastructure:
+    name: deploy-infrastructure
+    needs: psrule-scan
+    runs-on: ubuntu-latest
+    environment: production-infrastructure
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.BICEP_DIR }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Azure login
-  #       uses: Azure/login@v1
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  #     - name: Lint template
-  #       run: az bicep build --file azure.deploy.bicep
+      - name: Lint template
+        run: az bicep build --file azure.deploy.bicep
 
-  #     - name: Validate template
-  #       run: |
-  #         az deployment sub validate \
-  #         --name "${{ vars.DEPLOYMENT_NAME }}" \
-  #         --location "${{ vars.LOCATION }}" \
-  #         --template-file azure.deploy.bicep \
-  #         --parameters azure.deploy.parameters.json
+      - name: Validate template
+        run: |
+          az deployment sub validate \
+          --name "${{ vars.DEPLOYMENT_NAME }}" \
+          --location "${{ vars.LOCATION }}" \
+          --template-file azure.deploy.bicep \
+          --parameters azure.deploy.parameters.json
             
-  #     - name: Deploy template
-  #       run: |
-  #         az deployment sub create \
-  #         --name "${{ vars.DEPLOYMENT_NAME }}" \
-  #         --location "${{ vars.LOCATION }}"  \
-  #         --template-file azure.deploy.bicep \
-  #         --parameters azure.deploy.parameters.json
+      - name: Deploy template
+        run: |
+          az deployment sub create \
+          --name "${{ vars.DEPLOYMENT_NAME }}" \
+          --location "${{ vars.LOCATION }}"  \
+          --template-file azure.deploy.bicep \
+          --parameters azure.deploy.parameters.json
