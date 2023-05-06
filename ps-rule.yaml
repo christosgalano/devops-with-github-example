@@ -13,8 +13,6 @@ output:
 input:
   pathIgnore:
     - bicep/modules/
-    # - bicep/modules/
-    # - bicep/azure.deploy.bicep
 
 configuration:
   # Enable expansion of Azure Template files.
