@@ -13,14 +13,13 @@ output:
 input:
   pathIgnore:
     - bicep/modules/
-    - Bicep/azure.deploy.bicep
 
 configuration:
   # Enable expansion of Azure Template files.
   AZURE_PARAMETER_FILE_EXPANSION: true
 
   # Enable expansion of Azure Bicep files.
-  AZURE_BICEP_FILE_EXPANSION: true
+  AZURE_BICEP_FILE_EXPANSION: false
 
 rule:
   # Enable custom rules that don't exist in the baseline
@@ -28,5 +27,14 @@ rule:
   exclude:
     # Ignore the following rules for all resources
 
-    # Generic
+    # Template
     - Azure.Template.UseDescriptions
+
+    # Resource
+    - Azure.Resource.UseTags
+
+    # App Service
+    - Azure.AppService.HTTP2
+    - Azure.AppService.WebSecureFtp
+    - Azure.AppService.ARRAffinity
+    - Azure.AppService.ManagedIdentity

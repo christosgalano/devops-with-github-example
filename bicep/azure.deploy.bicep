@@ -42,15 +42,17 @@ module compute 'modules/compute.bicep' = {
   params: {
     location: location
 
-    plan_kind: 'linux'
     plan_name: 'plan-${suffix}'
+    plan_kind: 'linux'
+    plan_reserved: true
     plan_sku_name: 'P1V3'
     plan_sku_tier: 'PremiumV3'
-    plan_reserved: true
+    plan_sku_capacity: 2
 
     webapp_name: webapp_name
     webapp_always_on: true
     webapp_linux_fx_version: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
+    webapp_health_check_path: '/health'
   }
   dependsOn: [
     rg
