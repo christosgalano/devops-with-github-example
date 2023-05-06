@@ -12,6 +12,9 @@ param plan_sku_name string
 @description('SKU tier of the App Service Plan')
 param plan_sku_tier string
 
+@description('SKU capacity of the App Service Plan')
+param plan_sku_capacity int
+
 @description('Kind of the App Service Plan')
 param plan_kind string
 
@@ -27,6 +30,9 @@ param webapp_linux_fx_version string
 @description('Specifies whether always on is enabled')
 param webapp_always_on bool
 
+@description('Specifies the health check path')
+param webapp_health_check_path string
+
 /// Resources ///
 
 resource app_svc_plan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -36,6 +42,7 @@ resource app_svc_plan 'Microsoft.Web/serverfarms@2022-03-01' = {
   sku: {
     tier: plan_sku_tier
     name: plan_sku_name
+    capacity: plan_sku_capacity
   }
   properties: {
     reserved: plan_reserved
@@ -47,8 +54,9 @@ resource webapp 'Microsoft.Web/sites@2022-03-01' = {
   location: location
   properties: {
     siteConfig: {
-      linuxFxVersion: webapp_linux_fx_version
       alwaysOn: webapp_always_on
+      linuxFxVersion: webapp_linux_fx_version
+      healthCheckPath: webapp_health_check_path
     }
     httpsOnly: true
     serverFarmId: app_svc_plan.id
