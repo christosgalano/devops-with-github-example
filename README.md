@@ -1,8 +1,8 @@
 # DevOps with GitHub: FastAPI example
 
-[![ci-cd](https://github.com/christosgalano/devops-with-github-example/actions/workflows/ci_cd.yaml/badge.svg?branch=main&event=push)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/ci_cd.yaml)
-[![codeql](https://github.com/christosgalano/devops-with-github-example/actions/workflows/codeql.yaml/badge.svg?branch=main&event=push)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/codeql.yaml)
-[![deploy-infra](https://github.com/christosgalano/devops-with-github-example/actions/workflows/deploy_infra.yaml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/deploy_infra.yaml)
+[![ci-cd](https://github.com/christosgalano/devops-with-github-example/actions/workflows/ci_cd.yaml/badge.svg)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/ci_cd.yaml)
+[![codeql](https://github.com/christosgalano/devops-with-github-example/actions/workflows/codeql.yaml/badge.svg)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/codeql.yaml)
+[![deploy-infra](https://github.com/christosgalano/devops-with-github-example/actions/workflows/deploy_infra.yaml/badge.svg)](https://github.com/christosgalano/devops-with-github-example/actions/workflows/deploy_infra.yaml)
 
 ## Overview
 
