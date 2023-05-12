@@ -51,6 +51,7 @@ module compute 'modules/compute.bicep' = {
 
     webapp_name: webapp_name
     webapp_always_on: true
+    webapp_min_tls_version: '1.2'
     webapp_linux_fx_version: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
     webapp_health_check_path: '/health'
   }
