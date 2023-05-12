@@ -24,11 +24,14 @@ param plan_reserved bool
 @description('Name of the Webapp')
 param webapp_name string
 
-@description('Linux App Framework and version')
-param webapp_linux_fx_version string
-
 @description('Specifies whether always on is enabled')
 param webapp_always_on bool
+
+@description('Specifies the minimum TLS version')
+param webapp_min_tls_version string
+
+@description('Linux App Framework and version')
+param webapp_linux_fx_version string
 
 @description('Specifies the health check path')
 param webapp_health_check_path string
@@ -55,9 +58,9 @@ resource webapp 'Microsoft.Web/sites@2022-03-01' = {
   properties: {
     siteConfig: {
       alwaysOn: webapp_always_on
+      minTlsVersion: webapp_min_tls_version
       linuxFxVersion: webapp_linux_fx_version
       healthCheckPath: webapp_health_check_path
-      minTlsVersion: '1.2'
     }
     httpsOnly: true
     serverFarmId: app_svc_plan.id
