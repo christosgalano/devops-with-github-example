@@ -28,7 +28,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Bicep build
         run: az bicep build --file ${{ env.BICEP_DIR }}/azure.deploy.bicep --outfile ${{ env.BICEP_DIR }}/azure.deploy.json
@@ -69,7 +69,7 @@ jobs:
         working-directory: ${{ env.BICEP_DIR }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Azure login
         uses: Azure/login@v1
