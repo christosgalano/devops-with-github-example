@@ -20,7 +20,6 @@ env:
 
 jobs:
   test:
-    name: test
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -104,7 +103,6 @@ jobs:
           recreate: true
 
   publish-docker-image:
-    name: publish-docker-image
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -129,9 +127,35 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
   
-  deploy-application:
-    name: deploy-application
+  deploy-development:
     needs: publish-docker-image
+    runs-on: ubuntu-latest
+    environment:
+      url: https://${{ vars.WEBAPP_NAME }}.azurewebsites.net
+      name: development-application
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Azure login
+        uses: Azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Configure webapp
+        run: |
+          az webapp config container set \
+          --name ${{ vars.WEBAPP_NAME }} \
+          --resource-group ${{ vars.RESOURCE_GROUP_NAME }} \
+          --docker-custom-image-name '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}' \
+          --docker-registry-server-url ${{ env.REGISTRY }} \
+          --docker-registry-server-user ${{ github.repository_owner }} \
+          --docker-registry-server-password ${{ secrets.PACKAGES_PAT }}
+
+  deploy-production:
+    needs: deploy-development
     runs-on: ubuntu-latest
     environment:
       url: https://${{ vars.WEBAPP_NAME }}.azurewebsites.net

@@ -100,24 +100,8 @@ jobs:
           --deny-settings-mode 'denyDelete' \
           --yes
 
-  # approve:
-  #   name: approve-promotion
-  #   needs: deploy-development
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     issues: write
-  #   steps:
-  #     - name: Manual approval
-  #       uses: trstringer/manual-approval@v1.9.0
-  #       with:
-  #         approvers: christosgalano
-  #         minimum-approvals: 1
-  #         issue-title: "Approve promotion to production"
-  #         secret: ${{ secrets.GITHUB_TOKEN }}
-
   deploy-production:
     name: deploy-production
-    # needs: approve
     needs: deploy-development
     runs-on: ubuntu-latest
     environment: production-infrastructure
@@ -147,7 +131,7 @@ jobs:
           --template-file main.bicep \
           --parameters environments/production.bicepparam \
           --action-on-unmanage 'deleteAll' \
-          --deny-settings-mode 'denyDelete'
+          --deny-settings-mode 'none'
             
       - name: Deploy template
         run: |
@@ -157,5 +141,5 @@ jobs:
           --template-file main.bicep \
           --parameters environments/production.bicepparam \
           --action-on-unmanage 'deleteAll' \
-          --deny-settings-mode 'denyDelete' \
+          --deny-settings-mode 'none' \
           --yes
