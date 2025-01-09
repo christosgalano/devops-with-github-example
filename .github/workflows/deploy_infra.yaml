@@ -85,7 +85,7 @@ jobs:
           --name "${{ vars.DEPLOYMENT_STACK_NAME }}" \
           --location "${{ vars.LOCATION }}"  \
           --template-file main.bicep \
-          --parameters @environments/development.bicepparam \
+          --parameters environments/development.bicepparam \
           --action-on-unmanage 'deleteAll' \
           --deny-settings-mode 'denyDelete'
             
@@ -95,7 +95,7 @@ jobs:
           --name "${{ vars.DEPLOYMENT_STACK_NAME }}" \
           --location "${{ vars.LOCATION }}"  \
           --template-file main.bicep \
-          --parameters @environments/development.bicepparam \
+          --parameters environments/development.bicepparam \
           --action-on-unmanage 'deleteAll' \
           --deny-settings-mode 'denyDelete' \
           --yes
@@ -145,7 +145,7 @@ jobs:
           --name "${{ vars.DEPLOYMENT_STACK_NAME }}" \
           --location "${{ vars.LOCATION }}"  \
           --template-file main.bicep \
-          --parameters @environments/production.bicepparam \
+          --parameters environments/production.bicepparam \
           --action-on-unmanage 'deleteAll' \
           --deny-settings-mode 'denyDelete'
             
@@ -155,7 +155,7 @@ jobs:
           --name "${{ vars.DEPLOYMENT_STACK_NAME }}" \
           --location "${{ vars.LOCATION }}"  \
           --template-file main.bicep \
-          --parameters @environments/production.bicepparam \
+          --parameters environments/production.bicepparam \
           --action-on-unmanage 'deleteAll' \
           --deny-settings-mode 'denyDelete' \
           --yes
