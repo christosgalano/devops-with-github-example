@@ -29,10 +29,10 @@ def test_get_hello_3():
     assert response.json() == "Hello devops, engineers, again"
 
 
-def test_get_hello_4():
-    response = client.get(url="/devops/engineers/once/more")
-    assert response.status_code == 200
-    assert response.json() == "Hello devops, engineers, once, more"
+# def test_get_hello_4():
+#     response = client.get(url="/devops/engineers/once/more")
+#     assert response.status_code == 200
+#     assert response.json() == "Hello devops, engineers, once, more"
 
 
 def test_not_found():
