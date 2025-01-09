@@ -31,13 +31,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Bicep build
-        run: az bicep build --file ${{ env.BICEP_DIR }}/azure.deploy.bicep --outfile ${{ env.BICEP_DIR }}/azure.deploy.json
+        run: az bicep build --file ${{ env.BICEP_DIR }}/main.bicep --outfile ${{ env.BICEP_DIR }}/main.json
 
       - name: Run PSRule
         uses: microsoft/ps-rule@v2.9.0
         with:
           modules: "PSRule.Rules.Azure"
-          inputPath: ${{ env.BICEP_DIR }}/azure.deploy*.json
+          inputPath: ${{ env.BICEP_DIR }}/main*.json
           outputFormat: NUnit3
           outputPath: psrule-results-${{ github.run_number }}.xml
           summary: true
@@ -137,7 +137,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Lint template
-        run: az bicep build --file azure.deploy.bicep
+        run: az bicep build --file main.bicep
 
       - name: Validate template
         run: |
