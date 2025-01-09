@@ -1,3 +1,5 @@
+// File: compute/main.bicep
+
 /// Parameters ///
 
 @description('Location of all resources')
@@ -38,7 +40,7 @@ param webapp_health_check_path string
 
 /// Resources ///
 
-resource app_svc_plan 'Microsoft.Web/serverfarms@2022-03-01' = {
+resource app_svc_plan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: plan_name
   location: location
   kind: plan_kind
@@ -52,7 +54,7 @@ resource app_svc_plan 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
-resource webapp 'Microsoft.Web/sites@2022-03-01' = {
+resource webapp 'Microsoft.Web/sites@2024-04-01' = {
   name: webapp_name
   location: location
   properties: {

@@ -1,3 +1,5 @@
+// File: bicep/main.bicep
+
 targetScope = 'subscription'
 
 /// Parameters ///
@@ -19,10 +21,13 @@ param rg_tags object = {}
 
 /// Variables ///
 
-var tags = union({
+var tags = union(
+  {
     workload: workload
     environment: environment
-  }, rg_tags)
+  },
+  rg_tags
+)
 
 var rg_name = 'rg-${suffix}'
 var webapp_name = 'app-${suffix}'
@@ -30,13 +35,13 @@ var suffix = '${workload}-${environment}-${location_abbreviation}'
 
 /// Resources ///
 
-resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
+resource rg 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   name: rg_name
   location: location
   tags: tags
 }
 
-module compute 'modules/compute.bicep' = {
+module compute 'modules/compute/main.bicep' = {
   scope: resourceGroup(rg_name)
   name: 'compute-deployment'
   params: {
@@ -55,6 +60,7 @@ module compute 'modules/compute.bicep' = {
     webapp_health_check_path: '/health'
     webapp_linux_fx_version: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
   }
+
   dependsOn: [
     rg
   ]
@@ -63,4 +69,4 @@ module compute 'modules/compute.bicep' = {
 /// Outputs ///
 
 output webapp_name string = webapp_name
-output resource_groups array = [ rg.name ]
+output resource_groups array = [rg.name]
