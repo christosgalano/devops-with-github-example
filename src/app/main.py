@@ -31,13 +31,13 @@ def get_hello_3(string_1: str, string_2: str, string_3: str):
     return f"Hello {string_1}, {string_2}, {string_3}"
 
 
-# @app.get(
-#     "/{string_1}/{string_2}/{string_3}/{string_4}",
-#     response_model=str,
-#     status_code=status.HTTP_200_OK,
-# )
-# def get_hello_4(string_1: str, string_2: str, string_3: str, string_4: str):
-#     return f"Hello {string_1}, {string_2}, {string_3}, {string_4}"
+@app.get(
+    "/{string_1}/{string_2}/{string_3}/{string_4}",
+    response_model=str,
+    status_code=status.HTTP_200_OK,
+)
+def get_hello_4(string_1: str, string_2: str, string_3: str, string_4: str):
+    return f"Hello {string_1}, {string_2}, {string_3},{string_4}"
 
 
 if __name__ == "__main__":
