@@ -87,7 +87,7 @@ jobs:
           --template-file main.bicep \
           --parameters environments/development.bicepparam \
           --action-on-unmanage 'deleteAll' \
-          --deny-settings-mode 'denyDelete'
+          --deny-settings-mode 'none'
             
       - name: Deploy template
         run: |
@@ -97,7 +97,7 @@ jobs:
           --template-file main.bicep \
           --parameters environments/development.bicepparam \
           --action-on-unmanage 'deleteAll' \
-          --deny-settings-mode 'denyDelete' \
+          --deny-settings-mode 'none' \
           --yes
 
   deploy-production:
